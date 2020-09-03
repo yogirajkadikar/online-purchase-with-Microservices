@@ -1,15 +1,7 @@
 {%extends "base.html"%}
 
 {% block conten%}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      <li class="alert alert-{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+<!-- flash code added -->
+{% include '_messages.html' %}
 
 {% endblock %}
