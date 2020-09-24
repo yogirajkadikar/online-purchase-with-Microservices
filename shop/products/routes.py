@@ -9,8 +9,23 @@ from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 def home():
-   products = Addproduct.query.filter(Addproduct.stock >0)
-   return render_template('products/index.html', products=products)
+    products = Addproduct.query.filter(Addproduct.stock >0)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    return render_template('products/index.html', products=products, brands=brands)
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    brand = Addproduct.query.filter_by(brand_id=id)
+    return render_template('products/index.html', brand=brand, brands=brands)
+
+
+@app.route('/categories/<int:id>')
+def get_cat(id):
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    category = Addproduct.query.filter_by(category_id=id)
+    return render_template('products/index.html', category=category, categories=categories)
+
 
 @app.route('/addbrand',methods=['GET','POST'])
 def addbrand():
