@@ -9,22 +9,37 @@ from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 def home():
-    products = Addproduct.query.filter(Addproduct.stock >0)
+    page= request.args.get('page',1, type=int)
+    products = Addproduct.query.filter(Addproduct.stock >0).paginate(page=page, per_page=2)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    return render_template('products/index.html', products=products, brands=brands)
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return render_template('products/index.html', products=products, brands=brands, categories=categories)
+
+@app.route('/product/<int:id>')
+def single_page(id):
+    product = Addproduct.query.get_or_404(id)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return render_template('products/singlepage.html', product=product, brands=brands, categories=categories)
 
 @app.route('/brand/<int:id>')
 def get_brand(id):
+    page= request.args.get('page',1, type=int)
+    get_b = Brand.query.filter_by(id=id).first_or_404()
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    brand = Addproduct.query.filter_by(brand_id=id)
-    return render_template('products/index.html', brand=brand, brands=brands)
+    brand = Addproduct.query.filter_by(brand=get_b).paginate(page=page, per_page=2)
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return render_template('products/index.html', brand=brand, brands=brands, categories=categories, get_b=get_b)
 
 
 @app.route('/categories/<int:id>')
-def get_cat(id):
+def get_category(id):
+    page= request.args.get('page',1, type=int)
+    get_cat = Category.query.filter_by(id=id).first_or_404()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
-    category = Addproduct.query.filter_by(category_id=id)
-    return render_template('products/index.html', category=category, categories=categories)
+    gat_cat_prod = Addproduct.query.filter_by(category=get_cat).paginate(page=page, per_page=2)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    return render_template('products/index.html', gat_cat_prod=gat_cat_prod, categories=categories, brands=brands, get_cat=get_cat)
 
 
 @app.route('/addbrand',methods=['GET','POST'])
