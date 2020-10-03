@@ -41,7 +41,7 @@
           <a class="nav-link" href="/admin">Vendor Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-linkdisabled" href="#" tabindex="1">Cart ({{session['Shoppingcart']|length}})</a>
+            <a class="nav-linkdisabled" href="#" tabindex="1">Cart({{session['Shoppingcart']|length}})</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -70,11 +70,11 @@
             <p>{{product.desc}}</p>
             <form action="{{url_for('AddCart')}}" method="post">
                 <input type="hidden" name="product_id" value="{{product.id}}">
-                <button type="submit" class="btn btn-sm btn-warning">Add to Cart</button>
-                <label for="quantity">Quantity: </label>
+                <button type="submit" class="btn btn-sm btn-warning">Add Cart</button>
+                <label for="">Quantity:</label>
                 <input type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
                 {% set colors = product.colors.split(',') %}
-                <label for="colors">Colors: </label>
+                <label for="colors">Colors:</label>
                 <select name="colors" id="">
                     {% for color in colors %}
                     {% set col = color.split(':') %}

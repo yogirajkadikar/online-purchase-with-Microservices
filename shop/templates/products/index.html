@@ -41,7 +41,7 @@
           <a class="nav-link" href="/admin">Vendor Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="1">Cart ({{session['Shoppingcart']|length}})</a>
+          <a class="nav-link disabled" href="{{url_for('getCart')}}" tabindex="1">Cart({{session['Shoppingcart']|length}})</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -75,7 +75,7 @@
                       <input type="hidden" name="product_id" value="{{b.id}}">
                       <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                       
-                      <input type="hidden" name="quantity" id="" value="1">
+                      <input type="hidden" name="quantity" id="" value="">
                       {% set colors = b.color.split(',') %}
                      
                       <select name="colors" id="colors" style="visibility: hidden;">
@@ -135,7 +135,7 @@
                     <input type="hidden" name="product_id" value="{{get_cat.id}}">
                     <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                     
-                    <input type="hidden" name="quantity" id="" value="1">
+                    <input type="hidden" name="quantity" id="" value="">
                     {% set colors = get_cat.colors.split(',') %}
                    
                     <select name="colors" id="colors" style="visibility: hidden;">
@@ -195,7 +195,7 @@
                       <input type="hidden" name="product_id" value="{{product.id}}">
                       <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                       
-                      <input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                      <input type="hidden" name="quantity" id="" value="">
                       {% set colors = product.colors.split(',') %}
                      
                       <select name="colors" id="colors" style="visibility: hidden;">
